@@ -24,8 +24,9 @@
     //top是元素距离顶部的高度
     $.fn.sticky = function (top) {
         var $this = $(this);
+        top = +top;
         //元素存在并且距离顶部距离不为0
-        if ($this.length && top) {
+        if ($this.length && top > 0) {
             //初始时需要先设置一遍
             setSticky($this, top);
             //可以考虑debounce处理 ToDo
@@ -38,14 +39,14 @@
     function setSticky($ele, top) {
         //滚动到元素位置时
         if ($(window).scrollTop() >= top) {
-            if ($ele.css("position") != "fixed") {
+            if ($ele.css("position") !== "fixed") {
                 $ele.css({
                     position: "fixed",
                     top: 0
                 });
             }
         } else {
-            if ($ele.css("position") != "absolute") {
+            if ($ele.css("position") !== "absolute") {
                 $ele.css({
                     position: "absolute",
                     top: top
