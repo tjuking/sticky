@@ -21,7 +21,9 @@
 
     "use strict"
 
-    //top是元素距离顶部的高度
+    /**
+     * @param {number} top - 元素距离顶部的原始高度
+     */
     $.fn.sticky = function (top) {
         var $this = $(this);
         top = parseInt(top);
