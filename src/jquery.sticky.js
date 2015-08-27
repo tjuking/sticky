@@ -24,7 +24,7 @@
     //top是元素距离顶部的高度
     $.fn.sticky = function (top) {
         var $this = $(this);
-        top = +top;
+        top = parseInt(top);
         //元素存在并且距离顶部距离不为0
         if ($this.length && top > 0) {
             //初始时需要先设置一遍
