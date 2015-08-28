@@ -7,4 +7,4 @@
 使用示例：
     
     //设置元素sticky，原始高度为100像素
-    $(".demo").sticky(100);
+    $(".demo").sticky({ top: 100 });

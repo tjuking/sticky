@@ -1,5 +1,5 @@
 /**
- * sticky.js 0.1
+ * sticky.js 0.2
  * https://github.com/tjuking/jquery.sticky.js
  */
 
@@ -22,38 +22,59 @@
     "use strict"
 
     /**
-     * @param {number} top - 元素距离顶部的原始高度
+     * {object} options - top:元素距离顶部的高度; cssBottom:元素到达minBottom时设置的bottom样式值; minBottom:运行元素距离底部的最小值
      */
-    $.fn.sticky = function (top) {
+    $.fn.sticky = function (options) {
+        options = $.extend({
+            top: 0,
+            cssBottom: 0,
+            minBottom: 0
+        }, options);
         var $this = $(this);
-        top = parseInt(top);
+        var top = parseInt(options.top);
+        var cssTop = 0;
+        var cssBottom = parseInt(options.cssBottom);
+        var minBottom = parseInt(options.minBottom);
+        var height = $this.height();
+
         //元素存在并且距离顶部距离不为0
         if ($this.length && top > 0) {
+            cssTop = $this.css("top");
             //初始时需要先设置一遍
-            setSticky($this, top);
-            //可以考虑debounce处理 ToDo
+            setSticky();
+            //考虑debounce处理 ToDo
             $(window).on("scroll", function () {
-                setSticky($this, top);
+                setSticky();
             });
         }
-    };
 
-    function setSticky($ele, top) {
-        //滚动到元素位置时
-        if ($(window).scrollTop() >= top) {
-            if ($ele.css("position") !== "fixed") {
-                $ele.css({
-                    position: "fixed",
-                    top: 0
-                });
-            }
-        } else {
-            if ($ele.css("position") !== "absolute") {
-                $ele.css({
-                    position: "absolute",
-                    top: top
-                });
+        //内部调用方法
+        function setSticky() {
+            var scrollTop = $(window).scrollTop();
+            //滚动到元素位置时
+            if (scrollTop >= top) {
+                if (minBottom > 0 && $("body").height() - scrollTop <= minBottom + height) {
+                    $this.css({
+                        position: "absolute",
+                        top: "auto",
+                        bottom: cssBottom
+                    });
+                } else if ($this.css("position") !== "fixed") {
+                    $this.css({
+                        position: "fixed",
+                        top: 0,
+                        bottom: "auto"
+                    });
+                }
+            } else {
+                if ($this.css("position") !== "absolute") {
+                    $this.css({
+                        position: "absolute",
+                        top: cssTop,
+                        bottom: "auto"
+                    });
+                }
             }
         }
-    }
+    };
 });
