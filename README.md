@@ -5,7 +5,8 @@
 依赖：jQuery
 
 使用示例（示例请参加demo里的代码）：
-    
+
+```js    
     //设置sticky，元素距离页面顶部100像素
     $(".demo").sticky({ top: 100 });
     
@@ -15,4 +16,4 @@
         minBottom: 100,
         bottom: 10
     });
-    
+```    
